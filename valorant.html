@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Valorant Boost Calculator • Elokings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/style.css" />
+<a href="EloKings.html" class="logo">
+  <img src="EloKings.png" alt="Elokings Logo">
+  <span class="logo-text">Elokings</span>
+</a>
+  <style>
+    
+.logo {
+  position: fixed;   /* always visible */
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  z-index: 9999;
+}
+
+.logo img {
+  height: 42px;      /* adjust size */
+  width: auto;
+  display: block;
+}
+
+.logo-text {
+  font-weight: 800;
+  font-size: 1.3rem;
+  background: linear-gradient(135deg, #00d4ff, #7c4dff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+.logo:hover .logo-text {
+  text-shadow: 0 0 8px rgba(124,77,255,0.6);
+}
+
+    :root {
+      --glass: rgba(255,255,255,.06);
+      --glass-2: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.12);
+      --primary: #00d4ff;
+    }
+    body { color:#fff; }
+
+    .page-wrap {
+      max-width: 1100px;
+      margin: 120px auto 80px;
+      padding: 0 20px;
+    }
+    .boost-card {
+      background: var(--glass);
+      border: 1px solid var(--stroke);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,.6);
+      
+    }
+    /* Gradient text effect */
+    .gradient-text {
+      background: linear-gradient(135deg, #00d4ff, #7c4dff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+}
+
+    .boost-card:hover { box-shadow: 0 25px 60px rgba(0,212,255,.25); }
+    .boost-head { display:flex; flex-wrap:wrap; align-items:center; gap:14px; margin-bottom:12px; transform: translateZ(40px); }
+    .boost-title { font-weight:800; font-size:clamp(1.2rem, 1.6rem, 1.8rem); color:var(--primary); background: linear-gradient(135deg, #00d4ff, #4a17d8); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;  }
+    .badges { display:flex; gap:10px; margin-left:auto; transform: translateZ(30px); }
+    .badge {
+      font-size:.8rem; padding:.35rem .6rem; border-radius:999px;
+      background:var(--glass-2); border:1px solid var(--stroke); color:#cfefff;
+    }
+    .form-grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .field {
+      background: rgba(0,0,0,.25);
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .field label { display:block; color:#cfcfcf; font-size:.9rem; margin-bottom:8px; }
+    
+    /* ✅ Region Selector Buttons */
+    .region-selector { display:flex; gap:10px; }
+    .region-btn {
+      flex:1;
+      padding:12px; 
+      border-radius:10px; 
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.05);
+      color:#cfefff; 
+      cursor:pointer;
+      transition: all .2s ease;
+      text-align:center;
+      font-weight:600;
+    }
+    .region-btn.active {
+      background: linear-gradient(135deg,#00d4ff,#0099cc);
+      border-color: transparent;
+      color:#001217;
+      font-weight:700;
+      box-shadow: 0 8px 18px rgba(0,212,255,.25);
+    }
+
+    .selector-tabs { display:flex; gap:10px; margin: 6px 0 12px; }
+    .selector-tabs button {
+      flex:0 0 auto;
+      padding:8px 12px; border-radius:10px; border:1px solid var(--stroke);
+      background: rgba(255,255,255,.05); color:#cfefff; cursor:pointer;
+    }
+    .selector-tabs button.active {
+      color:#001217; background: linear-gradient(135deg,#00d4ff,#0099cc);
+      border-color: transparent; font-weight:700;
+    }
+    .rank-grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+      gap: 12px;
+      transform: translateZ(30px);
+    }
+    .rank-tile {
+      background: rgba(255,255,255,.04);
+      border:1px solid var(--stroke);
+      border-radius:14px;
+      padding:10px 8px;
+      text-align:center;
+      cursor:pointer;
+      transition: transform .12s ease, border-color .2s ease;
+      user-select:none;
+      position:relative;
+    }
+    .rank-tile img { width:52px; height:52px; margin:6px auto 8px; }
+    .rank-name { font-size:.85rem; color:#d6d6d6; }
+    .rank-tile:hover { transform: translateY(-2px); border-color: var(--primary); }
+    .rank-tile.selected-current {
+      background: rgba(0,212,255,.08);
+      box-shadow: 0 10px 24px rgba(0,212,255,.15);
+      border-color: var(--primary);
+    }
+    .rank-tile.selected-desired {
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 10px 24px rgba(255,255,255,.1);
+      border-color: #8a7cff;
+    }
+    .pin {
+      position:absolute; top:8px; right:8px;
+      font-size:.7rem; padding:3px 6px; border-radius:999px;
+      background: rgba(0,0,0,.35); color:#fff;
+    }
+    .pin.current { background: linear-gradient(135deg,#00d4ff,#0099cc); }
+    .pin.desired { background: linear-gradient(135deg,#8a7cff,#6b5cff); }
+    .options { display:flex; flex-wrap:wrap; gap:12px; margin-top: 14px;  transform: translateZ(25px); }
+    .chip {
+      display:flex; 
+      align-items:center; 
+      gap:8px; 
+      padding:.7rem 1rem;
+      border-radius:12px; 
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.05); 
+      cursor:pointer;
+      transition: all .2s ease;
+      position: relative;
+    }
+    .chip::before {
+  content: "";
+  width: 18px; 
+  height: 18px;
+  border: 2px solid var(--stroke);
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #fff;
+  transition: all 0.25s ease;
+}
+
+/* ✅ Active state with gradient + animated check */
+.chip.active::before {
+  content: "✔";
+  background: linear-gradient(135deg, #00d4ff, #7c4dff);
+  border-color: transparent;
+  box-shadow: 0 0 10px rgba(124,77,255,0.6);
+  transform: scale(1.1);
+  animation: checkPop 0.25s ease;
+}
+
+    .chip input { display:none; }
+    .chip.active { 
+      border-color: var(--primary); 
+      background: rgba(0,212,255,.12);
+      box-shadow: 0 6px 16px rgba(0,212,255,.2);
+    }
+    .price-row { display:flex; flex-wrap:wrap; align-items:center; gap:16px; margin-top: 18px; transform: translateZ(50px); }
+    .price-box {
+      flex:1 1 220px; 
+      border:1px solid var(--stroke); border-radius:14px;
+      padding:16px; font-size:1.2rem; font-weight:800; color:var(--primary); text-align:center;
+      background: linear-gradient(135deg, #00d4ff, #7c4dff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-cta {
+      flex:1 1 260px; padding:16px; border:none; border-radius:14px;
+      background: linear-gradient(135deg,#7c4dff,#6a5af9 30%, #4b64ff 60%, #00d4ff);
+      color:#fff; font-weight:800; font-size:1.05rem; cursor:pointer;
+      transform: translateZ(60px);
+    }
+    
+
+        .page-wrap {
+      perspective: 1200px; /* 👈 Needed for 3D effect */
+    }
+
+    .boost-card {
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      transform-style: preserve-3d;
+    }
+    .chip-note {
+  font-weight: 700;
+  margin-left: 4px;
+  background: linear-gradient(135deg, #00d4ff, #7c4dff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 6px rgba(124,77,255,0.5);
+}
+
+    
+    
+
+    
+
+  </style>
+</head>
+<body>
+  
+  <div class="page-wrap">
+    <div class="boost-card" id="boostCard">
+      <div class="boost-head">
+        <div class="boost-title">Calculate the price of your boost</div>
+        <div class="badges">
+          <div class="badge">100% satisfaction guarantee</div>
+          <div class="badge">Boosters Online</div>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Platform</label>
+          <div class="btn btn-secondary" style="width:100%; text-align:center; pointer-events:none;">Valorant</div>
+        </div>
+        <div class="field">
+          <label>Boost Type</label>
+          <div class="btn btn-secondary" style="width:100%; text-align:center; pointer-events:none;">By Rank</div>
+        </div>
+        <div class="field">
+          <label>Region</label>
+          <div class="region-selector" id="regionSelector">
+            <div class="region-btn active" data-region="EU">Europe</div>
+            <div class="region-btn" data-region="NA">North America</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="selector-tabs" id="selectorTabs">
+        <button type="button" data-mode="current" class="active">Pick Current Rank</button>
+        <button type="button" data-mode="desired">Pick Desired Rank</button>
+      </div>
+
+      <div class="field">
+        <div class="rank-grid" id="rankGrid"></div>
+        <div class="muted">Tip: tap once for current, switch tab and tap for desired.</div>
+      </div>
+
+      <div class="options" id="optionChips">
+        <label class="chip">
+      <input type="checkbox" data-extra="playWithBooster" />
+      <span>Play with Booster <span class="chip-note">(×2)</span></span>
+    </label>
+
+    <label class="chip">
+      <input type="checkbox" data-extra="priority" />
+      <span>Priority Order <span class="chip-note">(+20%)</span></span>
+    </label>
+
+    <label class="chip">
+      <input type="checkbox" data-extra="specificAgents" />
+      <span>Specific Agents <span class="chip-note">(+20%)</span></span>
+    </label>
+
+      </div>
+
+      <div class="price-row">
+        <div class="price-box" id="priceBox">Total Price: €0.00</div>
+        <button class="btn-cta" id="ctaBtn">Start Boost Now →</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ranks = [
+      { id:"iron1", name:"Iron I", img:"iron1.png" },
+      { id:"iron2", name:"Iron II", img:"iron2.png" },
+      { id:"iron3", name:"Iron III", img:"iron3.png" },
+      { id:"bronze1", name:"Bronze I", img:"bronze1.png" },
+      { id:"bronze2", name:"Bronze II", img:"bronze2.png" },
+      { id:"bronze3", name:"Bronze III", img:"bronze3.png" },
+      { id:"silver1", name:"Silver I", img:"silver1.png" },
+      { id:"silver2", name:"Silver II", img:"silver2.png" },
+      { id:"silver3", name:"Silver III", img:"silver3.png" },
+      { id:"gold1", name:"Gold I", img:"gold1.png" },
+      { id:"gold2", name:"Gold II", img:"gold2.png" },
+      { id:"gold3", name:"Gold III", img:"gold3.png" },
+      { id:"plat1", name:"Platinum I", img:"plat1.png" },
+      { id:"plat2", name:"Platinum II", img:"plat2.png" },
+      { id:"plat3", name:"Platinum III", img:"plat3.png" },
+      { id:"diamond1", name:"Diamond I", img:"diamond1.png" },
+      { id:"diamond2", name:"Diamond II", img:"diamond2.png" },
+      { id:"diamond3", name:"Diamond III", img:"diamond3.png" },
+      { id:"asc1", name:"Ascendant I", img:"asc1.png" },
+      { id:"asc2", name:"Ascendant II", img:"asc2.png" },
+      { id:"asc3", name:"Ascendant III", img:"asc3.png" },
+      { id:"imm1", name:"Immortal I", img:"imm1.png" },
+      { id:"imm2", name:"Immortal II", img:"imm2.png" },
+      { id:"imm3", name:"Immortal III", img:"imm3.png" },
+      { id:"radiant", name:"Radiant", img:"radiant.png" },
+    ];
+
+    const stepPrice = {
+      "iron1-iron2": 1.30, "iron2-iron3": 1.30, "iron3-bronze1": 2.40,
+      "bronze1-bronze2": 2.70, "bronze2-bronze3": 2.70, "bronze3-silver1": 3.30,
+      "silver1-silver2": 3.30, "silver2-silver3": 3.30, "silver3-gold1": 3.30,
+      "gold1-gold2": 3.70, "gold2-gold3": 3.70, "gold3-plat1": 4.60,
+      "plat1-plat2": 5.50, "plat2-plat3": 5.70, "plat3-diamond1": 8.60,
+      "diamond1-diamond2": 10.20, "diamond2-diamond3": 12.00, "diamond3-asc1": 18.00,
+      "asc1-asc2": 23.00, "asc2-asc3": 27.00, "asc3-imm1": 30.00,
+      "imm1-imm2": 39.00, "imm2-imm3": 49.00, "imm3-radiant": 49.00
+    };
+
+    const extrasPricing = {
+      playWithBooster: "mult2",
+      priority: "mult20",
+      specificAgents: "mult20"
+    };
+
+    const grid = document.getElementById('rankGrid');
+    grid.innerHTML = ranks.map(r => `
+      <div class="rank-tile" data-id="${r.id}">
+        <img src="${r.img}" alt="${r.name}">
+        <div class="rank-name">${r.name}</div>
+      </div>
+    `).join("");
+
+    let mode = "current", currentId=null, desiredId=null, region="EU";
+    document.querySelectorAll('#selectorTabs button').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('#selectorTabs button').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active'); mode=btn.dataset.mode;
+      });
+    });
+
+    grid.addEventListener('click', e=>{
+      const tile = e.target.closest('.rank-tile'); if(!tile) return;
+      const id = tile.dataset.id;
+      if(mode==="current") currentId=id; else desiredId=id;
+      updateSelections(); calculatePrice();
+    });
+
+    function updateSelections(){
+      document.querySelectorAll('.rank-tile').forEach(el=>{el.classList.remove('selected-current','selected-desired'); el.querySelectorAll('.pin').forEach(p=>p.remove());});
+      if(currentId){ const el=document.querySelector(`[data-id="${currentId}"]`); el.classList.add('selected-current'); el.insertAdjacentHTML('beforeend','<div class="pin current">Current</div>'); }
+      if(desiredId){ const el=document.querySelector(`[data-id="${desiredId}"]`); el.classList.add('selected-desired'); el.insertAdjacentHTML('beforeend','<div class="pin desired">Desired</div>'); }
+    }
+
+    function calcPathSteps(fromId,toId){
+      if(!fromId||!toId) return [];
+      const order=ranks.map(r=>r.id), start=order.indexOf(fromId), end=order.indexOf(toId);
+      if(start===-1||end===-1||end<=start) return [];
+      return order.slice(start,end).map((id,i)=>`${order[start+i]}-${order[start+i+1]}`);
+    }
+
+    const priceBox=document.getElementById('priceBox');
+
+    function calculatePrice(){
+      const steps=calcPathSteps(currentId,desiredId); let baseSum=0;
+      steps.forEach(k=>{ if(stepPrice[k]) baseSum+=stepPrice[k]; });
+      if(region==="NA") baseSum*=2; // ✅ Double price for NA
+
+      let finalPrice=baseSum, multiplier=1;
+      document.querySelectorAll('#optionChips input:checked').forEach(cb=>{
+        const extra=extrasPricing[cb.dataset.extra];
+        if(extra==="mult2") multiplier*=2;
+        else if(extra==="mult20") multiplier*=1.2;
+      });
+      finalPrice*=multiplier;
+
+      priceBox.textContent=`Total Price: €${finalPrice.toFixed(2)}`;
+    }
+
+    // ✅ highlight chip when clicked
+    document.querySelectorAll('#optionChips .chip').forEach(chip=>{
+      chip.addEventListener('click',()=>{
+        const input = chip.querySelector('input');
+        input.checked = !input.checked;
+        chip.classList.toggle('active', input.checked);
+        calculatePrice();
+      });
+    });
+
+    // ✅ Region selection
+    document.querySelectorAll('#regionSelector .region-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('#regionSelector .region-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        region=btn.dataset.region;
+        calculatePrice();
+      });
+    });
+
+    calculatePrice();
+    
+  const boostCard = document.getElementById("boostCard");
+
+  boostCard.addEventListener("mousemove", (e) => {
+    const rect = boostCard.getBoundingClientRect();
+    const x = e.clientX - rect.left; 
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    // Tilt range
+    const rotateX = ((y - centerY) / centerY) * -3;
+    const rotateY = ((x - centerX) / centerX) * 3;
+
+    boostCard.style.transform = `
+      rotateX(${rotateX}deg) 
+      rotateY(${rotateY}deg) 
+      scale(1.05)
+    `;
+    boostCard.style.boxShadow = `0 35px 70px rgba(0,0,0,0.6)`;
+  });
+
+  boostCard.addEventListener("mouseleave", () => {
+    boostCard.style.transform = "rotateX(0deg) rotateY(0deg) scale(1)";
+    boostCard.style.boxShadow = "0 20px 40px rgba(0,0,0,.6)";
+  });
+  </script>
+ 
+
+</body>
+</html>
