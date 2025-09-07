@@ -1,20 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  rel="stylesheet"
+/>
+
   <meta charset="UTF-8" />
   <title>Valorant Boost Calculator • Elokings</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="css/style.css" />
-<a href="EloKings.html" class="logo">
-  <img src="EloKings.png" alt="Elokings Logo">
-  <span class="logo-text">Elokings</span>
-</a>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+
   <style>
-    
+    /* ===== HEADER ===== */
+.header {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+
+  background: rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 10000;
+  backdrop-filter: blur(14px);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.logo {
+    margin-left: 500px
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px; /* makes corners rounded */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+
+.logo-text {
+  font-weight: 800;
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #ffffff, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  
+}
+
+/* Navigation */
+.nav-menu {
+  list-style: none;
+  display: flex;
+  gap: 2.5rem;
+  margin: 0 auto;
+}
+
+.nav-menu li a {
+  color: #f2f2f2;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.nav-menu li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.25s ease;
+}
+
+.nav-menu li a:hover {
+  color: var(--primary);
+}
+
+.nav-menu li a:hover::after {
+  width: 100%;
+}
+
+    body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  background: rgb(3, 3, 3);
+  overflow-x: hidden;
+  color: #fff;
+}
+
 .logo {
   position: fixed;   /* always visible */
-  top: 20px;
-  left: 20px;
+  top: 10px;
+  left: 50px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -158,6 +259,33 @@
       box-shadow: 0 10px 24px rgba(255,255,255,.1);
       border-color: #8a7cff;
     }
+    .rank-tile.coming-soon {
+  opacity: 0.6;
+  pointer-events: none; 
+  position: relative;
+  overflow: hidden;
+}
+
+
+.rank-tile.coming-soon::after {
+  content: "Coming Soon";
+  position: absolute;
+  top: 10px;
+  left: -25px;
+  width: 140px;
+  text-align: center;
+  transform: rotate(-20deg);
+  background: linear-gradient(135deg, #ff4d4d, #ff9a00);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 4px 0;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  letter-spacing: 0.5px;
+}
+
+
     .pin {
       position:absolute; top:8px; right:8px;
       font-size:.7rem; padding:3px 6px; border-radius:999px;
@@ -242,15 +370,154 @@
   text-shadow: 0 0 6px rgba(124,77,255,0.5);
 }
 
-    
+     
+
+/* ===== FOOTER ===== */
+.footer {
+  background: #000;
+  padding: 3rem 0 1rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-section h3 {
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.footer-section p,
+.footer-section a {
+  color: #aaa;
+  text-decoration: none;
+  line-height: 1.8;
+}
+
+.footer-section a:hover {
+  color: var(--primary);
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-links a {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: all .3s ease;
+}
+
+.social-links a:hover {
+  background: var(--primary);
+  color: #000;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  color: #888;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-links a {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background: #00d4ff;
+    color: #000;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #888;
+}
     
 
-    
+    /* ===================== */
+    /* Payment Popup Styles  */
+    /* ===================== */
+    .payment-popup { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; z-index: 100000; }
+    .payment-content { position: relative; width: 92%; max-width: 520px; background: rgba(20,20,20,0.98); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.6); padding: 22px 22px 14px; animation: popIn .15s ease-out; }
+    @keyframes popIn { from { transform: translateY(8px) scale(.98); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+    .payment-content h2 { margin: 6px 0 2px; font-size: 1.35rem; }
+    .payment-content p { margin: 0 0 12px; color: #bfbfbf; }
+
+    .pay-list { display: grid; gap: 12px; margin: 14px 0; }
+    .pay-item { display:flex; align-items:center; gap:14px; padding:14px; border:1px solid var(--stroke); background: rgba(255,255,255,.06); border-radius: 14px; cursor: pointer; transition: transform .08s ease, border-color .15s ease, background .2s ease; }
+    .pay-item:hover { transform: translateY(-2px); border-color: var(--primary); background: rgba(0,212,255,.12); }
+    .pay-item .icon { font-size: 22px; width: 38px; height: 38px; border-radius: 10px; display:grid; place-items:center; background: rgba(255,255,255,0.08); }
+    .pay-item h4 { margin: 0; font-size: 1rem; }
+    .pay-item span { display:block; color:#b8b8b8; font-size:.9rem; }
+
+    .payment-footer { margin: 10px 2px 6px; font-size: .9rem; color:#a9a9a9; text-align:center; }
+
+    .close-btn { position:absolute; top:10px; right:14px; width: 36px; height: 36px; border-radius: 10px; display:grid; place-items:center; cursor:pointer; background: rgba(255,255,255,.06); border:1px solid var(--stroke); }
+    .close-btn:hover { background: rgba(255,255,255,.1); }
+
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
 
   </style>
 </head>
 <body>
-  
+ <!-- ===== HEADER ===== -->
+<header class="header">
+  <nav class="nav-container">
+    <a href="EloKings.html" class="logo">
+      <img src="EloKings.png" alt="Elokings">
+      <span class="logo-text">Elokings</span>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="EloKings.html#home">Home</a></li>
+      <li><a href="EloKings.html#services">Services</a></li>
+      <li><a href="EloKings.html#games">Games</a></li>
+      <li>
+        <a href="https://discord.gg/EloKingsBoosting" target="_blank" rel="noopener noreferrer">
+          Contact us
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+            
+        </nav>
+    </header>
   <div class="page-wrap">
     <div class="boost-card" id="boostCard">
       <div class="boost-head">
@@ -286,7 +553,7 @@
 
       <div class="field">
         <div class="rank-grid" id="rankGrid"></div>
-        <div class="muted">Tip: tap once for current, switch tab and tap for desired.</div>
+        
       </div>
 
       <div class="options" id="optionChips">
@@ -311,6 +578,84 @@
         <div class="price-box" id="priceBox">Total Price: €0.00</div>
         <button class="btn-cta" id="ctaBtn">Start Boost Now →</button>
       </div>
+    </div>
+  </div>
+  <!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Elokings</h3>
+        <p>Professional gaming services trusted by thousands of players worldwide. Boost your rank, improve your skills, and dominate the competition.</p>
+        <div class="social-links">
+          <a href="https://discord.gg/EloKingsBoosting" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i></a>
+          <a href="https://www.instagram.com/elokingsboosting/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.tiktok.com/@elokingsboosting?lang=en" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h3>Services</h3>
+        <a href="#">Rank Boosting</a><br>
+        <a href="#">Coaching</a><br>
+        <a href="#">24/7 Support</a>
+      </div>
+
+      <div class="footer-section">
+        <h3>Games</h3>
+        <a href="#">Valorant</a><br>
+        <a href="#">League of Legends</a><br>
+        <a href="#">Counter-Strike 2</a><br>
+        <a href="#">Apex Legends</a><br>
+        <a href="#">Fortnite</a>
+      </div>
+
+      <div class="footer-section">
+        <h3>Support</h3>
+        <a href="https://discord.gg/EloKingsBoosting" target="_blank" rel="noopener noreferrer">Contact Us</a><br>
+        <a href="#">Terms of Service</a><br>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 Elokings. All rights reserved. Professional gaming services.</p>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- =============================== -->
+  <!-- Payment Popup (appears on click) -->
+  <!-- =============================== -->
+  <div id="paymentPopup" class="payment-popup" role="dialog" aria-modal="true" aria-labelledby="payTitle">
+    <div class="payment-content">
+      <button class="close-btn" id="closePopup" aria-label="Close payment dialog"><i class="fa-solid fa-xmark"></i></button>
+
+      <h2 id="payTitle">Choose Payment Method</h2>
+      <p>Select how you'd like to pay for <strong>EloKings Valorant boost</strong></p>
+
+      <div class="pay-list">
+        <a class="pay-item" id="payCard" href="#" target="_blank" rel="noopener noreferrer">
+          <div class="icon"><i class="fa-solid fa-credit-card"></i></div>
+          <div>
+            <h4>Debit/Credit Card</h4>
+            <span>Secure payment via SellHub</span>
+          </div>
+          <span class="sr-only">Pay by card</span>
+        </a>
+
+        <a class="pay-item" id="payPaypal" href="#" target="_blank" rel="noopener noreferrer">
+          <div class="icon"><i class="fa-brands fa-paypal"></i></div>
+          <div>
+            <h4>PayPal (Friends &amp; Family)</h4>
+            <span>Send as friends &amp; family to avoid fees</span>
+          </div>
+          <span class="sr-only">Pay with PayPal</span>
+        </a>
+      </div>
+
+      <div class="payment-footer">All payments are secure and encrypted</div>
     </div>
   </div>
 
@@ -362,11 +707,12 @@
 
     const grid = document.getElementById('rankGrid');
     grid.innerHTML = ranks.map(r => `
-      <div class="rank-tile" data-id="${r.id}">
-        <img src="${r.img}" alt="${r.name}">
-        <div class="rank-name">${r.name}</div>
-      </div>
-    `).join("");
+    <div class="rank-tile ${r.id==="radiant" ? "coming-soon" : ""}" data-id="${r.id}">
+      <img src="${r.img}" alt="${r.name}">
+      <div class="rank-name">${r.name}</div>
+    </div>
+`).join("");
+
 
     let mode = "current", currentId=null, desiredId=null, region="EU";
     document.querySelectorAll('#selectorTabs button').forEach(btn=>{
@@ -389,12 +735,15 @@
       if(desiredId){ const el=document.querySelector(`[data-id="${desiredId}"]`); el.classList.add('selected-desired'); el.insertAdjacentHTML('beforeend','<div class="pin desired">Desired</div>'); }
     }
 
-    function calcPathSteps(fromId,toId){
-      if(!fromId||!toId) return [];
-      const order=ranks.map(r=>r.id), start=order.indexOf(fromId), end=order.indexOf(toId);
-      if(start===-1||end===-1||end<=start) return [];
-      return order.slice(start,end).map((id,i)=>`${order[start+i]}-${order[start+i+1]}`);
-    }
+    function calcPathSteps(fromId, toId) {
+      if (!fromId || !toId) return [];
+      const order = ranks.map(r => r.id).filter(id => id !== "radiant"); // 🚫 exclude Radiant
+      const start = order.indexOf(fromId);
+      const end = order.indexOf(toId);
+      if (start === -1 || end === -1 || end <= start) return [];
+      return order.slice(start, end).map((id, i) => `${order[start + i]}-${order[start + i + 1]}`);
+}
+
 
     const priceBox=document.getElementById('priceBox');
 
@@ -447,8 +796,8 @@
     const centerY = rect.height / 2;
 
     // Tilt range
-    const rotateX = ((y - centerY) / centerY) * -3;
-    const rotateY = ((x - centerX) / centerX) * 3;
+    const rotateX = ((y - centerY) / centerY) * -1;
+    const rotateY = ((x - centerX) / centerX) * 1;
 
     boostCard.style.transform = `
       rotateX(${rotateX}deg) 
@@ -461,6 +810,39 @@
   boostCard.addEventListener("mouseleave", () => {
     boostCard.style.transform = "rotateX(0deg) rotateY(0deg) scale(1)";
     boostCard.style.boxShadow = "0 20px 40px rgba(0,0,0,.6)";
+  });
+
+  // =====================
+  // Payment Popup Logic
+  // =====================
+  const popup = document.getElementById("paymentPopup");
+  const closePopup = document.getElementById("closePopup");
+  const ctaBtn = document.getElementById("ctaBtn");
+
+  function openPopup(){ popup.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+  function closePopupFn(){ popup.style.display = 'none'; document.body.style.overflow = ''; }
+
+  ctaBtn.addEventListener('click', openPopup);
+  closePopup.addEventListener('click', closePopupFn);
+
+  // click outside to close
+  popup.addEventListener('click', (e)=>{ if(e.target === popup){ closePopupFn(); } });
+
+  // ESC to close
+  window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && popup.style.display === 'flex'){ closePopupFn(); } });
+
+  // TODO: Replace # with your real payment links
+  document.getElementById('payCard').addEventListener('click', (e)=>{
+    if(e.currentTarget.getAttribute('href') === '#'){
+      e.preventDefault();
+      alert('Replace the Card link (id: payCard) with your SellHub checkout URL.');
+    }
+  });
+  document.getElementById('payPaypal').addEventListener('click', (e)=>{
+    if(e.currentTarget.getAttribute('href') === '#'){
+      e.preventDefault();
+      alert('Replace the PayPal link (id: payPaypal) with your PayPal Friends & Family payment instructions.');
+    }
   });
   </script>
  
