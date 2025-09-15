@@ -344,7 +344,27 @@
       background: linear-gradient(135deg, #00d4ff, #7c4dff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-    }
+     }
+     <div class="price-row">
+  <div class="price-box" id="priceBox">Total Price: €0.00</div>
+  <button class="btn-cta" id="ctaBtn" disabled="false">Start Boost Now</button>
+
+</div>
+<p id="rankWarning" class="rank-warning">
+  Desired rank must be higher than current rank.
+</p>
+.rank-warning {
+  color: #ff4d4d;
+  font-weight: 600;
+  display: none;
+  text-align: center;
+  margin-top: 8px;
+  width: 100%; /* make it span under both */
+}
+
+
+
+    
     .btn-cta {
       flex:1 1 260px; padding:16px; border:none; border-radius:14px;
       background: linear-gradient(135deg,#7c4dff,#6a5af9 30%, #4b64ff 60%, #00d4ff);
@@ -490,6 +510,11 @@
     .close-btn:hover { background: rgba(255,255,255,.1); }
 
     .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+.btn-cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: gray;
+}
 
   </style>
 </head>
@@ -576,7 +601,9 @@
 
       <div class="price-row">
         <div class="price-box" id="priceBox">Total Price: €0.00</div>
-        <button class="btn-cta" id="ctaBtn">Start Boost Now →</button>
+        <!-- make sure there is NO disabled attribute here -->
+<button class="btn-cta" id="ctaBtn">Start Boost Now</button>
+
       </div>
     </div>
   </div>
@@ -687,6 +714,10 @@
       { id:"imm3", name:"Immortal III", img:"imm3.png" },
       { id:"radiant", name:"Radiant", img:"radiant.png" },
     ];
+    // Build a stable order + quick index map (Radiant excluded for now)
+const rankOrder = ranks.map(r => r.id).filter(id => id !== "radiant");
+const rankIndex = Object.fromEntries(rankOrder.map((id, i) => [id, i]));
+
 
     const stepPrice = {
       "iron1-iron2": 1.30, "iron2-iron3": 1.30, "iron3-bronze1": 2.40,
@@ -747,21 +778,55 @@
 
     const priceBox=document.getElementById('priceBox');
 
-    function calculatePrice(){
-      const steps=calcPathSteps(currentId,desiredId); let baseSum=0;
-      steps.forEach(k=>{ if(stepPrice[k]) baseSum+=stepPrice[k]; });
-      if(region==="NA") baseSum*=2; // ✅ Double price for NA
+    function calculatePrice() {
+  const ctaBtn = document.getElementById('ctaBtn');
+  const rankWarning = document.getElementById('rankWarning');
 
-      let finalPrice=baseSum, multiplier=1;
-      document.querySelectorAll('#optionChips input:checked').forEach(cb=>{
-        const extra=extrasPricing[cb.dataset.extra];
-        if(extra==="mult2") multiplier*=2;
-        else if(extra==="mult20") multiplier*=1.2;
-      });
-      finalPrice*=multiplier;
+  // default UI state
+  let baseSum = 0;
 
-      priceBox.textContent=`Total Price: €${finalPrice.toFixed(2)}`;
-    }
+  // If either rank not chosen yet → disable button, no warning
+  if (!currentId || !desiredId) {
+    priceBox.textContent = `Total Price: €0.00`;
+    ctaBtn.disabled = true;
+    if (rankWarning) rankWarning.style.display = "none";
+    return;
+  }
+
+  const start = rankIndex[currentId];
+  const end = rankIndex[desiredId];
+
+  // Invalid selections or desired ≤ current → disable + show warning
+  if (start === undefined || end === undefined || end <= start) {
+    priceBox.textContent = `Total Price: €0.00`;
+    ctaBtn.disabled = true;
+    if (rankWarning) rankWarning.style.display = "block";
+    return;
+  }
+
+  // Valid selection → compute price
+  for (let i = start; i < end; i++) {
+    const key = `${rankOrder[i]}-${rankOrder[i + 1]}`;
+    if (stepPrice[key]) baseSum += stepPrice[key];
+  }
+
+  if (region === "NA") baseSum *= 2;
+
+  let multiplier = 1;
+  document.querySelectorAll('#optionChips input:checked').forEach(cb => {
+    const extra = extrasPricing[cb.dataset.extra];
+    if (extra === "mult2") multiplier *= 2;
+    else if (extra === "mult20") multiplier *= 1.2;
+  });
+
+  const finalPrice = baseSum * multiplier;
+
+  priceBox.textContent = `Total Price: €${finalPrice.toFixed(2)}`;
+  ctaBtn.disabled = false;
+  if (rankWarning) rankWarning.style.display = "none";
+}
+
+
 
     // ✅ highlight chip when clicked
     document.querySelectorAll('#optionChips .chip').forEach(chip=>{
